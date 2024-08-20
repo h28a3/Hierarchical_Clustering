@@ -12,7 +12,7 @@ def compute_distance_matrix(X):
     for i in range(n):
         for j in range(i+1, n):
             distance_matrix[i, j] = euclidean_distance(X[i], X[j])
-            distance_matrix[j, i] = distance_matrix[i, j]  # ‘ÎÌs—ñ
+            distance_matrix[j, i] = distance_matrix[i, j]  # å¯¾ç§°è¡Œåˆ—
     return distance_matrix
 
 def find_closest_clusters(distance_matrix):
@@ -27,24 +27,24 @@ def find_closest_clusters(distance_matrix):
     return cluster_pair
 
 def ward_clustering(X, num_clusters=3):
-    clusters = [[i] for i in range(len(X))]  # Šeƒf[ƒ^ƒ|ƒCƒ“ƒg‚ğŒÂ•Ê‚ÌƒNƒ‰ƒXƒ^‚É
+    clusters = [[i] for i in range(len(X))]  # å„ãƒ‡ãƒ¼ã‚¿ãƒã‚¤ãƒ³ãƒˆã‚’å€‹åˆ¥ã®ã‚¯ãƒ©ã‚¹ã‚¿ã«
     distance_matrix = compute_distance_matrix(X)
 
     while len(clusters) > num_clusters:
-        # ‹——£s—ñ‚©‚çÅ‚à‹ß‚¢ƒNƒ‰ƒXƒ^‚ÌƒyƒA‚ğŒ©‚Â‚¯‚é
+        # è·é›¢è¡Œåˆ—ã‹ã‚‰æœ€ã‚‚è¿‘ã„ã‚¯ãƒ©ã‚¹ã‚¿ã®ãƒšã‚¢ã‚’è¦‹ã¤ã‘ã‚‹
         i, j = find_closest_clusters(distance_matrix)
 
-        # ƒNƒ‰ƒXƒ^‚ğŒ‹‡
+        # ã‚¯ãƒ©ã‚¹ã‚¿ã‚’çµåˆ
         clusters[i].extend(clusters[j])
         del clusters[j]
 
-        # V‚µ‚¢‹——£s—ñ‚ÌXV
+        # æ–°ã—ã„è·é›¢è¡Œåˆ—ã®æ›´æ–°
         for k in range(len(clusters)):
             if k != i:
                 dist_ik = np.mean([euclidean_distance(X[p], X[q]) for p in clusters[i] for q in clusters[k]])
                 distance_matrix[i, k] = distance_matrix[k, i] = dist_ik
 
-        # Œ‹‡‚³‚ê‚½ƒNƒ‰ƒXƒ^‚Ìs‚Æ—ñ‚ğíœ
+        # çµåˆã•ã‚ŒãŸã‚¯ãƒ©ã‚¹ã‚¿ã®è¡Œã¨åˆ—ã‚’å‰Šé™¤
         distance_matrix = np.delete(distance_matrix, j, axis=0)
         distance_matrix = np.delete(distance_matrix, j, axis=1)
 
@@ -55,9 +55,9 @@ def ward_clustering(X, num_clusters=3):
 
 wine = load_wine()
 
-# ƒf[ƒ^‚Æƒ^[ƒQƒbƒg‚Ìæ“¾
-X = wine.data  # “Á’¥—Êƒf[ƒ^
-y = wine.target  # ƒ‰ƒxƒ‹ƒf[ƒ^
+# ãƒ‡ãƒ¼ã‚¿ã¨ã‚¿ãƒ¼ã‚²ãƒƒãƒˆã®å–å¾—
+X = wine.data  # ç‰¹å¾´é‡ãƒ‡ãƒ¼ã‚¿
+y = wine.target  # ãƒ©ãƒ™ãƒ«ãƒ‡ãƒ¼ã‚¿
 
 scaler = StandardScaler()
 X_scaled = scaler.fit_transform(X)
