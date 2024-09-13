@@ -50,9 +50,6 @@ def ward_clustering(X, num_clusters=3):
 
     return clusters
 
-
-
-
 wine = load_wine()
 
 # データとターゲットの取得
